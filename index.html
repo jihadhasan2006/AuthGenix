@@ -730,7 +730,7 @@
 
             <div class="grid-2" style="margin-top: 16px;">
                 <button class="btn" onclick="showCustomNameView()">Custom Name</button>
-                <button class="btn" onclick="showSmsExtractor()">OTP Extract</button>
+                <button class="btn" onclick="showSmsExtractor()">One-Line Format</button>
                 <button class="btn" onclick="show2FA()">2FA Core</button>
                 <button class="btn" onclick="showPlatformMenu()">Identity</button>
             </div>
@@ -788,23 +788,167 @@
 
     function showSmsExtractor() {
         renderView(`
-            <p class="desc">Extract OTP codes from raw SMS text.</p>
-            
+            <p class="desc">Username + Password + Cookies → One Line (Google Sheets)</p>
+
             <div class="data-card">
-                ${getToggleUI('Extract Code', 'toggleOTPMode', 'manualMainOTP', 'autoMainOTP', 'otpResult')}
-                <div id="manualMainOTP" style="display: ${autoPasteEnabled ? 'none' : 'block'};">
-                    <input type="text" id="smsText" class="input-box" placeholder="PASTE FULL SMS HERE" oninput="manualProcessOTP('smsText', 'otpResult')">
+                <div class="input-group">
+                    <input type="text" id="olfUsername" class="input-box" placeholder="Username">
                 </div>
-                <div id="autoMainOTP" style="display: ${autoPasteEnabled ? 'block' : 'none'};">
-                    <button class="btn btn-primary" onclick="autoPasteProcessOTP('otpResult')">Auto Paste & Extract</button>
+                <div class="input-group" style="display:flex; gap:8px; align-items:center;">
+                    <input type="password" id="olfPassword" class="input-box" placeholder="Saved Password" style="flex:1;">
+                    <button class="btn" style="width:auto; padding:10px 12px; font-size:12px;" onclick="toggleOlfPassword()">👁</button>
                 </div>
-                <div id="otpResult"></div>
+                <div class="input-group">
+                    <textarea id="olfCookies" class="input-box" placeholder="Paste cookies here" style="min-height:90px; resize:vertical; font-family:Consolas,monospace; font-size:12px;"></textarea>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="olfScriptUrl" class="input-box" placeholder="Google Script URL (https://script.google.com/.../exec)">
+                </div>
+
+                <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;">
+                    <button class="btn btn-primary" style="flex:1; min-width:120px;" onclick="olfGenerate()">Generate One-Line</button>
+                    <button class="btn" style="flex:1; min-width:100px;" onclick="olfSavePassword()">Save Pass</button>
+                    <button class="btn" style="flex:1; min-width:100px;" onclick="olfSaveUrl()">Save URL</button>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;">
+                    <button class="btn" style="flex:1; min-width:100px;" onclick="olfClearPass()">Clear Pass</button>
+                    <button class="btn" style="flex:1; min-width:100px;" onclick="olfCopy()">Copy Output</button>
+                    <button class="btn" style="flex:1; min-width:100px;" onclick="olfDownload()">TXT Download</button>
+                </div>
+
+                <div id="olfStatus" style="font-size:11px; color:var(--primary); margin-top:10px; min-height:16px;"></div>
+
+                <div style="font-size:11px; color:var(--text-muted); margin:12px 0 6px; font-weight:600;">One-line Format (Username|Password|Cookies)</div>
+                <div id="olfOutput" class="clickable-data" style="width:100%; min-height:60px; text-align:left; white-space:pre-wrap; word-break:break-all; font-family:Consolas,monospace; font-size:12px; padding:12px; margin:0;"></div>
             </div>
 
             <div style="margin-top: 10px; width: 100%;">
                 <button class="btn" style="width: 100%;" onclick="showMainMenu()">Back to Hub</button>
             </div>
-        `, 'OTP Extractor');
+        `, 'One-Line Format');
+
+        // Load saved values after render
+        setTimeout(() => {
+            const savedPass = localStorage.getItem('oneLineFormatterPassword');
+            const savedUrl  = localStorage.getItem('oneLineFormatterScriptUrl');
+            if (savedPass) document.getElementById('olfPassword').value = savedPass;
+            if (savedUrl)  document.getElementById('olfScriptUrl').value = savedUrl;
+            if (savedPass || savedUrl) {
+                const st = document.getElementById('olfStatus');
+                if (st) st.textContent = (savedPass && savedUrl) ? 'Saved password & Script URL loaded.' : (savedPass ? 'Saved password loaded.' : 'Saved Script URL loaded.');
+            }
+        }, 50);
+    }
+
+    // ===== One-Line Formatter helpers =====
+    const OLF_PASS_KEY = "oneLineFormatterPassword";
+    const OLF_URL_KEY  = "oneLineFormatterScriptUrl";
+
+    function olfStatus(msg) {
+        const el = document.getElementById('olfStatus');
+        if (el) el.textContent = msg || '';
+    }
+
+    function toggleOlfPassword() {
+        const inp = document.getElementById('olfPassword');
+        if (inp) inp.type = inp.type === 'password' ? 'text' : 'password';
+    }
+
+    function olfSavePassword() {
+        const p = document.getElementById('olfPassword')?.value || '';
+        if (!p) { olfStatus('Enter a password first.'); return; }
+        try {
+            localStorage.setItem(OLF_PASS_KEY, p);
+            olfStatus('Password saved.');
+        } catch (e) {
+            olfStatus('Cannot save password (storage blocked).');
+        }
+    }
+
+    function olfSaveUrl() {
+        const url = (document.getElementById('olfScriptUrl')?.value || '').trim();
+        if (!url) { olfStatus('Enter Script URL first.'); return; }
+        try {
+            localStorage.setItem(OLF_URL_KEY, url);
+            olfStatus('Script URL saved.');
+        } catch (e) {
+            olfStatus('Cannot save URL (storage blocked).');
+        }
+    }
+
+    function olfClearPass() {
+        try { localStorage.removeItem(OLF_PASS_KEY); } catch (e) {}
+        const inp = document.getElementById('olfPassword');
+        if (inp) inp.value = '';
+        olfStatus('Saved password cleared.');
+    }
+
+    async function olfGenerate() {
+        const u = (document.getElementById('olfUsername')?.value || '').trim();
+        const c = (document.getElementById('olfCookies')?.value || '').trim();
+        let p = document.getElementById('olfPassword')?.value || '';
+        if (!p) {
+            try { p = localStorage.getItem(OLF_PASS_KEY) || ''; } catch (e) {}
+        }
+        let scriptUrl = (document.getElementById('olfScriptUrl')?.value || '').trim();
+        if (!scriptUrl) {
+            try { scriptUrl = localStorage.getItem(OLF_URL_KEY) || ''; } catch (e) {}
+        }
+
+        if (!u || !p || !c) {
+            olfStatus('Username, password এবং cookies—সবগুলো পূরণ করুন.');
+            return;
+        }
+        if (!scriptUrl) {
+            olfStatus('Google Script URL দিন।');
+            return;
+        }
+
+        const oneLine = u + '|' + p + '|' + c;
+        const outEl = document.getElementById('olfOutput');
+        if (outEl) outEl.textContent = oneLine;
+
+        olfStatus('Generating & sending to Google Sheets...');
+        try {
+            await fetch(scriptUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                redirect: 'follow',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ oneLine: oneLine })
+            });
+            olfStatus('One-line generated + Google Sheets-এ পাঠানো হয়েছে ✓');
+        } catch (err) {
+            olfStatus('Generated, কিন্তু Sheets-এ পাঠাতে সমস্যা হয়েছে।');
+            console.error(err);
+        }
+    }
+
+    async function olfCopy() {
+        const out = (document.getElementById('olfOutput')?.textContent || '').trim();
+        if (!out) { olfStatus('আগে Generate করুন.'); return; }
+        try {
+            await navigator.clipboard.writeText(out);
+            olfStatus('Output copied.');
+            showToastMessage('✅ Output Copied!');
+        } catch (e) {
+            olfStatus('Copy failed. Output manually copy করুন.');
+        }
+    }
+
+    function olfDownload() {
+        const out = (document.getElementById('olfOutput')?.textContent || '').trim();
+        if (!out) { olfStatus('আগে Generate করুন.'); return; }
+        const blob = new Blob([out + '\n'], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'one-line-format.txt';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        olfStatus('TXT file downloaded.');
     }
 
     function show2FA() {
