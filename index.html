@@ -221,15 +221,6 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 28px -4px color-mix(in srgb, var(--primary) 55%, transparent);
         }
-        
-        .btn-preview {
-            background: var(--input-bg);
-            color: var(--primary);
-            border: 1.5px solid var(--primary);
-        }
-        .btn-preview:hover {
-            background: var(--primary-soft);
-        }
 
         /* ── INPUTS ── */
         .input-group { margin-bottom: 10px; }
@@ -557,7 +548,7 @@
         }
     };
 
-    const MAX_USERNAME_LEN = 17;
+    const MAX_USERNAME_LEN = 17; // Matches length of "jihad_hasan_01255" (17 chars max)
 
     function capitalizeClean(str) {
         const clean = (str || '').replace(/[^a-zA-Z]/g, '');
@@ -565,14 +556,15 @@
         return clean.charAt(0).toUpperCase() + clean.slice(1).toLowerCase();
     }
 
+    // Builds username from exact first & last name + 2-digit random number, capped at 17 chars max
     function buildBoundedUsername(firstName, lastName) {
         const fClean = firstName.toLowerCase().replace(/[^a-z0-9]/g, '');
         const lClean = lastName.toLowerCase().replace(/[^a-z0-9]/g, '');
-        const rand2Digit = Math.floor(10 + Math.random() * 90);
-        const suffix = `_${rand2Digit}`;
+        const rand2Digit = Math.floor(10 + Math.random() * 90); // Always 2 digits (10-99)
+        const suffix = `_${rand2Digit}`; // 3 chars (e.g. "_48")
         
         let base = lClean ? `${fClean}_${lClean}` : fClean;
-        const maxBaseLength = MAX_USERNAME_LEN - suffix.length;
+        const maxBaseLength = MAX_USERNAME_LEN - suffix.length; // 14 chars max for name part
         
         if (base.length > maxBaseLength) {
             base = base.substring(0, maxBaseLength).replace(/_+$/, '');
@@ -580,6 +572,7 @@
         return `${base}${suffix}`;
     }
 
+    // Picks a random Full Name & matching bounded Username (ensuring First+Last fits cleanly)
     function getRandomIdentity(country, gender) {
         const pool = seedPools[country] || seedPools.bd;
         const firstPool = pool[gender] || pool.male;
@@ -613,6 +606,7 @@
         }, 600); 
     });
 
+    // ── THEME ENGINE ──
     const themeSequence = ['theme-light', 'theme-ocean', 'theme-cyber', 'theme-ios'];
     const themeData = {
         'theme-light': { emoji: '☀️', name: 'Light Theme' },
@@ -652,6 +646,7 @@
     let autoPasteEnabled = false;
     let vaultPassword = localStorage.getItem('jih4d_vault_pass') || '';
 
+    // ── ACTIVE 2FA LIVE REFRESH TIMERS ──
     const active2FATimers = {};
 
     function clear2FATimer(targetId) {
@@ -803,6 +798,7 @@
         });
     }
 
+    // ── LIVE AUTO-UPDATING 2FA ENGINE (UPDATES EVERY SECOND, AUTO-ROTATES CODE EVERY 30s) ──
     function execute2FACore(secret, targetId, isAuto) {
         clear2FATimer(targetId);
         const resultDiv = document.getElementById(targetId);
@@ -1323,10 +1319,7 @@
             ${getCommonBoxesHTML()}
 
             <div style="margin-top: 10px; width: 100%;">
-                <div class="grid-2" style="margin-bottom: 10px;">
-                    <button class="btn btn-preview" onclick="showToastMessage('👁 Preview Mode')">Preview</button>
-                    <button class="btn btn-primary" onclick="generateIdentityData('${g}')">Generate Again</button>
-                </div>
+                <button class="btn btn-primary" style="width: 100%; margin-bottom: 10px;" onclick="generateIdentityData('${g}')">Generate Again</button>
                 <div class="grid-2">
                     <button class="btn" onclick="selectCountry(selCoun)">Back</button>
                     <button class="btn" onclick="showMainMenu()">Hub</button>
