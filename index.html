@@ -22,11 +22,6 @@
             --shadow: 0 20px 60px -15px rgba(139,92,246,0.2);
             --danger: #f43f5e;
             --success: #10b981;
-            --admin-bg: rgba(30,27,75,0.95);
-            --admin-border: rgba(167,139,250,0.35);
-            --admin-primary: #a78bfa;
-            --admin-text: #ede9fe;
-            --admin-input: rgba(30,27,75,0.9);
         }
 
         .theme-ocean {
@@ -36,15 +31,10 @@
             --text-main: #f0fdfa;
             --text-muted: #5eead4;
             --primary: #2dd4bf;
-            --primary-hover: #14b8a6;
+            --primary-hover: #14b816;
             --primary-soft: rgba(45,212,191,0.14);
             --input-bg: rgba(2,6,23,0.75);
             --shadow: 0 25px 60px -10px rgba(0,0,0,0.65);
-            --admin-bg: rgba(2,6,23,0.96);
-            --admin-border: rgba(45,212,191,0.3);
-            --admin-primary: #2dd4bf;
-            --admin-text: #ccfbf1;
-            --admin-input: rgba(2,6,23,0.9);
         }
 
         .theme-cyber {
@@ -58,11 +48,6 @@
             --primary-soft: rgba(250,204,21,0.14);
             --input-bg: rgba(12,10,9,0.8);
             --shadow: 0 25px 60px -10px rgba(0,0,0,0.7);
-            --admin-bg: rgba(12,10,9,0.97);
-            --admin-border: rgba(250,204,21,0.3);
-            --admin-primary: #facc15;
-            --admin-text: #fef9c3;
-            --admin-input: rgba(12,10,9,0.92);
         }
 
         .theme-ios {
@@ -76,11 +61,6 @@
             --primary-soft: rgba(48,209,88,0.15);
             --input-bg: rgba(44,44,46,0.8);
             --shadow: 0 20px 50px rgba(0,0,0,0.8);
-            --admin-bg: rgba(22,22,24,0.98);
-            --admin-border: rgba(48,209,88,0.3);
-            --admin-primary: #30d158;
-            --admin-text: #f5f5f7;
-            --admin-input: rgba(0,0,0,0.6);
         }
 
         /* ── RESET ── */
@@ -137,7 +117,7 @@
         @keyframes blink { 0%,100%{opacity:.3} 50%{opacity:.85} }
 
         /* ── SHELL ── */
-        .app-wrapper, .admin-wrapper {
+        .app-wrapper {
             width: 100%; display: flex;
             justify-content: center; align-items: center;
             padding: 12px;
@@ -305,13 +285,32 @@
         .clickable-data:hover {
             border-color: var(--primary);
             background: var(--primary-soft);
-            transform: scale(1.03);
+            transform: scale(1.02);
         }
 
         .divider {
             height: 1px;
             background: linear-gradient(90deg, transparent, var(--card-border), transparent);
             margin: 14px 0;
+        }
+
+        /* ── 2FA TIMER BADGE ── */
+        .totp-timer-badge {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 50px;
+            background: var(--primary-soft);
+            color: var(--primary);
+            border: 1px solid var(--card-border);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .totp-timer-badge.expiring {
+            color: var(--danger);
+            background: rgba(244, 63, 94, 0.12);
+            border-color: rgba(244, 63, 94, 0.35);
         }
 
         /* ── FOOTER ── */
@@ -321,7 +320,6 @@
             border-top: 1px solid var(--card-border);
             letter-spacing: 0.5px;
         }
-        .footer div:hover { color: var(--primary); cursor: pointer; }
 
         /* ── TOAST ── */
         #toast {
@@ -341,188 +339,11 @@
             transform: translate(-50%, 0);
         }
 
-        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.16,1,0.3,1) forwards; }
+        .fade-in { animation: fadeIn 0.35s cubic-bezier(0.16,1,0.3,1) forwards; }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(8px); }
             to   { opacity: 1; transform: translateY(0); }
         }
-
-        /* ── ADMIN ── */
-        .admin-container {
-            background: var(--admin-bg);
-            backdrop-filter: blur(28px);
-            -webkit-backdrop-filter: blur(28px);
-            border: 1.5px solid var(--admin-border);
-            padding: 32px 24px; border-radius: 24px;
-            width: 100%; max-width: 420px; text-align: center;
-            box-shadow: 0 24px 56px rgba(0,0,0,0.5);
-            position: relative;
-        }
-        .admin-container h2 {
-            margin-bottom: 20px; color: var(--admin-primary);
-            font-weight: 700; font-size: 17px;
-            letter-spacing: 1.5px; text-transform: uppercase;
-            text-shadow: 0 0 20px color-mix(in srgb, var(--admin-primary) 40%, transparent);
-        }
-        .admin-select {
-            width: 100%; padding: 12px 14px; margin-bottom: 9px;
-            background: var(--admin-input);
-            border: 1.5px solid rgba(255,255,255,0.08);
-            color: var(--admin-text); border-radius: 12px;
-            font-size: 12px; outline: none; appearance: none;
-            transition: all 0.25s;
-            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23a78bfa%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-            background-repeat: no-repeat; background-position: right 12px center; background-size: 9px;
-        }
-        .admin-select:focus {
-            border-color: var(--admin-primary);
-            box-shadow: 0 0 0 3px color-mix(in srgb, var(--admin-primary) 18%, transparent);
-        }
-        .admin-select option { background: #1e1b4b; color: #fff; }
-
-        .admin-btn {
-            width: 100%; padding: 13px;
-            background: var(--admin-primary); color: #0a0a0a;
-            border: none; font-weight: 700; font-size: 12.5px;
-            border-radius: 50px; cursor: pointer;
-            margin-bottom: 8px; transition: all 0.25s;
-            text-transform: uppercase; letter-spacing: 0.8px;
-            box-shadow: 0 4px 16px color-mix(in srgb, var(--admin-primary) 30%, transparent);
-        }
-        .admin-btn:hover {
-            filter: brightness(1.12); transform: translateY(-2px);
-            box-shadow: 0 8px 24px color-mix(in srgb, var(--admin-primary) 40%, transparent);
-        }
-        .admin-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-        .admin-btn-danger {
-            background: transparent; color: var(--danger);
-            border: 1.5px solid rgba(244,63,94,0.35);
-            box-shadow: none; margin-top: 8px;
-        }
-        .admin-btn-danger:hover {
-            background: var(--danger); color: #fff;
-            box-shadow: 0 4px 16px rgba(244,63,94,0.35);
-        }
-
-        .admin-form-panel {
-            background: rgba(0,0,0,0.25);
-            padding: 16px; border-radius: 14px;
-            margin-bottom: 16px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        .admin-divider-text {
-            text-align: center; margin: 12px 0;
-            font-size: 10px; color: var(--admin-primary);
-            font-weight: 700; letter-spacing: 1.5px;
-            display: flex; align-items: center;
-        }
-        .admin-divider-text::before, .admin-divider-text::after {
-            content: ''; flex: 1;
-            border-bottom: 1px dashed color-mix(in srgb, var(--admin-primary) 30%, transparent);
-            margin: 0 10px;
-        }
-        .upload-zone {
-            background: rgba(0,0,0,0.2);
-            border: 1.5px dashed color-mix(in srgb, var(--admin-primary) 30%, transparent);
-            padding: 12px; border-radius: 12px; margin-bottom: 10px;
-            transition: all 0.25s;
-        }
-        .upload-zone:hover {
-            background: color-mix(in srgb, var(--admin-primary) 8%, transparent);
-            border-color: var(--admin-primary);
-        }
-        input[type=file] { width: 100%; color: var(--text-muted); font-size: 11px; cursor: pointer; }
-        input[type=file]::file-selector-button {
-            background: color-mix(in srgb, var(--admin-primary) 12%, transparent);
-            color: var(--admin-primary);
-            border: 1.5px solid var(--admin-primary);
-            padding: 6px 12px; border-radius: 50px;
-            font-weight: 600; cursor: pointer; margin-right: 10px;
-            font-size: 10.5px; transition: all 0.25s;
-        }
-        input[type=file]::file-selector-button:hover {
-            background: var(--admin-primary); color: #0a0a0a;
-        }
-
-        .admin-list-header {
-            display: flex; justify-content: space-between; align-items: center;
-            flex-wrap: wrap; gap: 8px; margin-bottom: 10px;
-        }
-        .admin-stat-badge {
-            background: color-mix(in srgb, var(--admin-primary) 12%, transparent);
-            border: 1px solid color-mix(in srgb, var(--admin-primary) 25%, transparent);
-            padding: 5px 10px; border-radius: 50px;
-            display: flex; align-items: center; gap: 6px;
-        }
-        .admin-stat-label {
-            font-size: 9px; color: var(--admin-text);
-            text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;
-        }
-        .admin-stat-value {
-            background: var(--admin-primary); color: #0a0a0a;
-            padding: 1px 7px; border-radius: 50px;
-            font-size: 10px; font-weight: 800;
-        }
-        .admin-delete-all-btn {
-            background: transparent; color: var(--danger);
-            border: 1.5px solid rgba(244,63,94,0.3);
-            padding: 5px 10px; border-radius: 50px;
-            cursor: pointer; font-size: 10px; font-weight: 700;
-            transition: all 0.25s; display: flex; align-items: center; gap: 4px;
-        }
-        .admin-delete-all-btn:hover {
-            background: var(--danger); color: #fff;
-        }
-        #adminDataList {
-            max-height: 260px; overflow-y: auto;
-            margin-bottom: 14px; padding-right: 4px;
-        }
-        #adminDataList::-webkit-scrollbar { width: 3px; }
-        #adminDataList::-webkit-scrollbar-thumb {
-            background: color-mix(in srgb, var(--admin-primary) 40%, transparent);
-            border-radius: 4px;
-        }
-        .admin-data-card {
-            background: rgba(0,0,0,0.3);
-            padding: 11px 12px; margin-top: 7px;
-            border-radius: 12px; text-align: left;
-            display: flex; justify-content: space-between; align-items: center;
-            border: 1px solid rgba(255,255,255,0.04);
-            transition: all 0.2s;
-        }
-        .admin-data-card:hover {
-            border-color: color-mix(in srgb, var(--admin-primary) 35%, transparent);
-            transform: translateX(3px);
-        }
-        .admin-data-info { display: flex; flex-direction: column; gap: 2px; }
-        .admin-data-name {
-            color: var(--admin-primary); font-weight: 600; font-size: 12.5px;
-        }
-        .admin-data-meta {
-            font-size: 9px; color: var(--text-muted);
-            display: flex; align-items: center; gap: 4px;
-        }
-        .admin-delete-btn {
-            background: transparent; color: var(--danger);
-            border: 1px solid rgba(244,63,94,0.25);
-            padding: 4px 9px; border-radius: 50px;
-            cursor: pointer; font-size: 9.5px; font-weight: 600;
-            transition: 0.2s;
-        }
-        .admin-delete-btn:hover { background: var(--danger); color: #fff; }
-
-        .close-admin {
-            position: absolute; top: 12px; right: 14px;
-            font-size: 10px; font-weight: 700; color: var(--danger);
-            cursor: pointer;
-            border: 1.5px solid rgba(244,63,94,0.3);
-            padding: 4px 9px; border-radius: 50px;
-            transition: 0.25s; background: transparent;
-        }
-        .close-admin:hover { background: var(--danger); color: #fff; }
-
-        .hidden { display: none !important; }
 
         #olfOutput {
             background: var(--card-bg) !important;
@@ -556,89 +377,9 @@
         <div class="content fade-in" id="app-content"></div>
 
         <div class="footer">
-            <div onclick="openAdminPanel()" style="font-weight: 600; margin-bottom: 4px; letter-spacing: 0.5px; cursor: pointer; display: inline-block;">
+            <div style="font-weight: 600; letter-spacing: 0.5px;">
                 AuthGenix // Secure Hub
             </div>
-        </div>
-    </div>
-</div>
-
-<div class="admin-wrapper hidden" id="adminAppWrapper">
-    <div class="admin-container">
-        
-        <div class="close-admin" onclick="closeAdminPanel()">Close [X]</div>
-
-        <div id="loginSection">
-            <h2 style="margin-top: 16px;">🔒 Admin Access</h2>
-            <input type="email" id="emailInput" class="input-box" placeholder="Administrator Email">
-            <input type="password" id="passwordInput" class="input-box" placeholder="Secure Password">
-            <button id="loginBtn" class="admin-btn">Authenticate</button>
-            <p id="errorMsg" style="color: var(--danger); font-size: 12px; font-weight: 500;"></p>
-        </div>
-
-        <div id="dashboardSection" class="hidden">
-            <h2 style="margin-top: 10px;">⚙️ Data Control Hub</h2>
-            
-            <div class="admin-form-panel">
-                <select id="platformSelect" class="admin-select" style="border-color: rgba(100, 255, 218, 0.4);">
-                    <option value="all">🌐 All Platforms (Global)</option>
-                    <option value="fb">📘 Facebook Only</option>
-                    <option value="ig">📸 Instagram Only</option>
-                    <option value="tt">🎵 TikTok Only</option>
-                </select>
-
-                <div style="display: flex; gap: 10px;">
-                    <select id="countrySelect" class="admin-select">
-                        <option value="bd">🇧🇩 BGD</option>
-                        <option value="usa">🇺🇸 USA</option>
-                        <option value="uk">🇬🇧 UK</option>
-                        <option value="fr">🇫🇷 FRA</option>
-                        <option value="in">🇮🇳 IND</option>
-                        <option value="cn">🇨🇳 CHN</option>
-                    </select>
-                    
-                    <select id="categorySelect" class="admin-select">
-                        <option value="male_full">👨 Male</option>
-                        <option value="female_full">👩 Female</option>
-                        <option value="username">@ User</option>
-                    </select>
-                </div>
-                
-                <div class="admin-divider-text">UPLOAD DATABASE</div>
-
-                <div class="upload-zone">
-                    <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500;">
-                        📁 Select a .txt file (One name/username per line)
-                    </div>
-                    <input type="file" id="fileInput" accept=".txt">
-                </div>
-
-                <button id="addDataBtn" class="admin-btn" style="margin-top: 5px;">Upload Data</button>
-            </div>
-
-            <div class="admin-list-header">
-                <div style="display: flex; gap: 8px; align-items: center;">
-                    <div class="admin-stat-badge">
-                        <span class="admin-stat-label">Total</span>
-                        <span class="admin-stat-value" id="recordCountText">0</span>
-                    </div>
-                    <button id="deleteAllBtn" class="admin-delete-all-btn hidden" onclick="deleteAllFilteredData()">🗑️ Delete All</button>
-                </div>
-                
-                <select id="filterPlatform" class="admin-select" style="width: auto; padding: 6px 10px; margin-bottom: 0; font-size: 11px;">
-                    <option value="all_view">View All</option>
-                    <option value="all">Global</option>
-                    <option value="fb">Facebook</option>
-                    <option value="ig">Instagram</option>
-                    <option value="tt">TikTok</option>
-                </select>
-            </div>
-            
-            <div id="adminDataList">
-                <p style="font-size: 12px; color: var(--text-muted); margin-top: 22px;">Connecting to secure server...</p>
-            </div>
-
-            <button id="logoutBtn" class="admin-btn admin-btn-danger">Secure Logout</button>
         </div>
     </div>
 </div>
@@ -646,176 +387,140 @@
 <div id="toast">✅ Copied</div>
 
 <script>
-    // ── HIGH-CAPACITY SEED POOLS (GENERATES 3,000 UNIQUE NAMES & USERNAMES PER COUNTRY) ──
+    // ── SEED POOLS FOR RANDOM NAME & MATCHING USERNAME GENERATION ──
     const seedPools = {
         bd: {
             male: [
                 "Tanvir", "Rakib", "Sajid", "Fahim", "Naim", "Arif", "Zahid", "Mahmud", "Shakil", "Rohan",
                 "Mehedi", "Tarek", "Imran", "Sabbir", "Ashik", "Rayhan", "Nadim", "Farhan", "Tamim", "Arafat",
                 "Rifat", "Siam", "Abir", "Nayeem", "Hasib", "Jubayer", "Maruf", "Nasim", "Shuvo", "Tawsif",
-                "Mushfiq", "Mustafiz", "Taskin", "Litton", "Soumya", "Najmul", "Afif", "Shoriful", "Ebadot", "Taijul",
-                "Mominul", "Mashrafe", "Rubel", "Anamul", "Imrul", "Shahriar", "Nafees", "Alok", "Tapash", "Aftab",
-                "Suhrawadi", "Naeem", "Raqibul", "Shafiul", "Nazmul", "Nasir", "Sohag", "Ziaur", "Shamsur", "Mithun",
-                "Nurul", "Mosaddek", "Saifuddin", "Mahedi", "Naimur", "ariful", "Abu", "Khaled", "Yasir", "Shadman",
-                "Zakir", "Mahmudul", "Towhid", "Tanzid", "Parvez", "Shamim", "Rishad", "Tanzim", "Nahid", "Jaker",
-                "Salman", "Adnan", "Sadman", "Tahmid", "Ishfaq", "Abrar", "Ahnaf", "Daiyan", "Zayan", "Ayman",
-                "Safwan", "Redwan", "Ridwan", "Arman", "Kamran", "Irfan", "Zishan", "Rashed", "Faisal", "Sohel"
+                "Mushfiq", "Taskin", "Litton", "Soumya", "Najmul", "Afif", "Taijul", "Rubel", "Anamul", "Imrul",
+                "Nafees", "Alok", "Tapash", "Aftab", "Naeem", "Shafiul", "Nazmul", "Nasir", "Sohag", "Mithun",
+                "Nurul", "Mahedi", "Naimur", "Ariful", "Abu", "Khaled", "Yasir", "Shadman", "Zakir", "Towhid",
+                "Tanzid", "Parvez", "Shamim", "Rishad", "Tanzim", "Nahid", "Jaker", "Salman", "Adnan", "Sadman",
+                "Tahmid", "Ishfaq", "Abrar", "Ahnaf", "Daiyan", "Zayan", "Ayman", "Safwan", "Redwan", "Ridwan",
+                "Arman", "Kamran", "Irfan", "Zishan", "Rashed", "Faisal", "Sohel", "Jihad", "Shanto", "hridoy"
             ],
             female: [
                 "Nusrat", "Sadia", "Tasnim", "Farzana", "Mim", "Sumaiya", "Jannat", "Tanjina", "Samia", "Lamia",
                 "Mahiya", "Anika", "Nadia", "Raisa", "Maliha", "Humaira", "Sanjida", "Afia", "Tahmina", "Sharmin",
                 "Faria", "Sabrina", "Laboni", "Nabila", "Ishrat", "Tania", "Rupa", "Puja", "Promi", "Mithila",
-                "Mehazabien", "Tanjin", "Safa", "Sabila", "Tasnuba", "arin", "Pori", "Mahi", "Bidya", "Joya",
-                "Dilara", "Suborna", "Shomi", "afsan", "Bipasha", "aupee", "Richi", "Tisha", "Bindu", "Shokh",
-                "Sarika", "Orsha", "Moushumi", "Shabnur", "Purnima", "Apu", "Bubly", "Keya", "Toma", "Airin",
-                "Nigar", "Salma", "Rumana", "Jahanara", "Fargana", "nahida", "Ritu", "Fahima", "Sanjida", "Shamima",
-                "Murshida", "Sobhana", "Lata", "Khadija", "Panna", "Sharmin", "sultana", "Rabeya", "Marufa", "Dilara",
-                "Zarin", "Tasnia", "fabiha", "Maisa", "Samiha", "kashfia", "Nawshin", "Zeba", "Bushra", "sidratul",
-                "Muntaha", "Atiya", "ayesha", "Fatema", "Khadiza", "mariam", "Halima", "Amina", "Rukaiya", "Sumona"
+                "Tanjin", "Safa", "Sabila", "Tasnuba", "Arin", "Pori", "Mahi", "Bidya", "Joya", "Dilara",
+                "Suborna", "Shomi", "Bipasha", "Aupee", "Richi", "Tisha", "Bindu", "Shokh", "Sarika", "Orsha",
+                "Purnima", "Apu", "Bubly", "Keya", "Toma", "Airin", "Nigar", "Salma", "Rumana", "Fargana",
+                "Nahida", "Ritu", "Fahima", "Shamima", "Lata", "Khadija", "Panna", "Sultana", "Rabeya", "Marufa",
+                "Zarin", "Tasnia", "Fabiha", "Maisa", "Samiha", "Nawshin", "Zeba", "Bushra", "Muntaha", "Atiya",
+                "Ayesha", "Fatema", "Mariam", "Halima", "Amina", "Rukaiya", "Sumona", "Nishi", "Tumpa", "Moni"
             ],
             last: [
-                "Ahmed", "Hossain", "Islam", "Rahman", "Khan", "Hasan", "Chowdhury", "Mahmud", "Alam", "Sikder",
-                "Talukder", "Bhuiyan", "Sarkar", "Uddin", "Mia", "Sheikh", "Khandaker", "Patwary", "Howlader", "Munshi",
-                "Kabir", "Azad", "Bashar", "Haque", "Karim", "Latif", "Molla", "Mannan", "Rana", "Siddique",
-                "Akter", "Begum", "Khatun", "Sultana", "Parvin", "Nahar", "Jahan", "Siddiqui", "Qureshi", "Mirza",
-                "Dewan", "Gazi", "Kazi", "Syed", "Mir", "Shah", "Majumder", "Chakraborty", "Roy", "Das",
-                "Saha", "Sen", "Bose", "Dutta", "Mondal", "Biswas", "Halder", "Bari", "Matubbar", "Fakir"
+                "Ahmed", "Hossain", "Islam", "Rahman", "Khan", "Hasan", "Mahmud", "Alam", "Sikder", "Sarkar",
+                "Uddin", "Mia", "Sheikh", "Munshi", "Kabir", "Azad", "Bashar", "Haque", "Karim", "Latif",
+                "Molla", "Mannan", "Rana", "Akter", "Begum", "Khatun", "Sultana", "Parvin", "Nahar", "Jahan",
+                "Mirza", "Dewan", "Gazi", "Kazi", "Syed", "Mir", "Shah", "Roy", "Das", "Saha",
+                "Sen", "Bose", "Dutta", "Mondal", "Biswas", "Halder", "Bari", "Fakir", "ali", "miah"
             ]
         },
         usa: {
             male: [
-                "Liam", "Noah", "Oliver", "Elijah", "James", "William", "Benjamin", "Lucas", "Henry", "Theodore",
-                "Jack", "Levi", "Alexander", "Jackson", "Mateo", "Daniel", "Michael", "Mason", "Sebastian", "Ethan",
-                "Logan", "Owen", "Samuel", "Jacob", "Asher", "Aiden", "John", "Joseph", "Wyatt", "David",
-                "Leo", "Luke", "Julian", "Hudson", "Grayson", "Matthew", "Ezra", "Gabriel", "Carter", "Isaac",
-                "Jayden", "Luca", "Anthony", "Dylan", "Lincoln", "Thomas", "Maverick", "Elias", "Josiah", "Charles",
-                "Caleb", "Christopher", "Ezekiel", "Miles", "Jaxon", "Isaiah", "Andrew", "Joshua", "Nathan", "Nolan",
-                "Adrian", "Cameron", "Santiago", "Eli", "Aaron", "Ryan", "Angel", "Cooper", "Waylon", "Easton",
-                "Kai", "Christian", "Landon", "Colton", "Roman", "Axel", "Brooks", "Jonathan", "Robert", "Jameson",
-                "Ian", "Everett", "Greyson", "Wesley", "Jeremiah", "Hunter", "Leonardo", "Jordan", "Jose", "Bennett",
-                "Silas", "Nicholas", "Parker", "Beau", "Weston", "Austin", "Connor", "Carson", "Dominic", "Xavier"
+                "Liam", "Noah", "Oliver", "Elijah", "James", "William", "Lucas", "Henry", "Jack", "Levi",
+                "Mateo", "Daniel", "Michael", "Mason", "Ethan", "Logan", "Owen", "Samuel", "Jacob", "Asher",
+                "Aiden", "John", "Joseph", "Wyatt", "David", "Leo", "Luke", "Julian", "Hudson", "Matthew",
+                "Ezra", "Gabriel", "Carter", "Isaac", "Jayden", "Luca", "Anthony", "Dylan", "Lincoln", "Thomas",
+                "Elias", "Josiah", "Charles", "Caleb", "Miles", "Jaxon", "Isaiah", "Andrew", "Joshua", "Nathan",
+                "Nolan", "Adrian", "Eli", "Aaron", "Ryan", "Angel", "Cooper", "Waylon", "Easton", "Kai",
+                "Landon", "Colton", "Roman", "Axel", "Brooks", "Robert", "Ian", "Wesley", "Hunter", "Jordan",
+                "Jose", "Silas", "Parker", "Beau", "Weston", "Austin", "Connor", "Carson", "Xavier", "Cole"
             ],
             female: [
-                "Olivia", "Emma", "Charlotte", "Amelia", "Sophia", "Isabella", "Ava", "Mia", "Evelyn", "Luna",
-                "Harper", "Camila", "Sofia", "Scarlett", "Elizabeth", "Eleanor", "Emily", "Chloe", "Mila", "Violet",
-                "Penelope", "Gianna", "Aria", "Abigail", "Ella", "Avery", "Hazel", "Nora", "Layla", "Lily",
-                "Aurora", "Nova", "Ellie", "Madison", "Grace", "Isla", "Willow", "Zoe", "Riley", "Stella",
-                "Eliana", "Ivy", "Victoria", "Emilia", "Zoey", "Naomi", "Hannah", "Lucy", "Elena", "Lillian",
-                "Maya", "Leah", "Paisley", "Addison", "Natalie", "Valentina", "Everly", "Delilah", "Leilani", "Madelyn",
-                "Kinsley", "Ruby", "Sophie", "Alice", "Genesis", "Claire", "Audrey", "Sadie", "Aaliyah", "Josephine",
-                "Autumn", "Brooklyn", "Quinn", "Kennedy", "Cora", "Savannah", "Caroline", "Athena", "Natalia", "Hailey",
-                "Aubrey", "Emery", "Anna", "Iris", "Bella", "Eloise", "Skylar", "Jade", "Gabriella", "Arianna",
-                "Maria", "Adeline", "Lydia", "Sarah", "Nevaeh", "Serenity", "Liliana", "Ayla", "Everleigh", "Raelynn"
+                "Olivia", "Emma", "Amelia", "Sophia", "Ava", "Mia", "Evelyn", "Luna", "Harper", "Camila",
+                "Sofia", "Emily", "Chloe", "Mila", "Violet", "Gianna", "Aria", "Ella", "Avery", "Hazel",
+                "Nora", "Layla", "Lily", "Aurora", "Nova", "Ellie", "Grace", "Isla", "Willow", "Zoe",
+                "Riley", "Stella", "Eliana", "Ivy", "Emilia", "Zoey", "Naomi", "Hannah", "Lucy", "Elena",
+                "Maya", "Leah", "Paisley", "Addison", "Natalie", "Everly", "Delilah", "Kinsley", "Ruby", "Sophie",
+                "Alice", "Claire", "Audrey", "Sadie", "Autumn", "Quinn", "Cora", "Athena", "Hailey", "Aubrey",
+                "Emery", "Anna", "Iris", "Bella", "Eloise", "Skylar", "Jade", "Arianna", "Maria", "Lydia",
+                "Sarah", "Nevaeh", "Ayla", "vera", "rose", "daisy", "haley", "brooke", "paige", "fiona"
             ],
             last: [
-                "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez",
-                "Hernandez", "Lopez", "Gonzalez", "Wilson", "Anderson", "Thomas", "Taylor", "Moore", "Jackson", "Martin",
-                "Lee", "Perez", "Thompson", "White", "Harris", "Sanchez", "Clark", "Ramirez", "Lewis", "Robinson",
-                "Walker", "Young", "Allen", "King", "Wright", "Scott", "Torres", "Nguyen", "Hill", "Flores",
-                "Green", "Adams", "Nelson", "Baker", "Hall", "Rivera", "Campbell", "Mitchell", "Carter", "Roberts",
-                "Gomez", "Phillips", "Evans", "Turner", "Diaz", "Parker", "Cruz", "Edwards", "Collins", "Reyes"
+                "Smith", "Johnson", "Brown", "Jones", "Garcia", "Miller", "Davis", "Wilson", "Thomas", "Taylor",
+                "Moore", "Jackson", "Martin", "Lee", "Perez", "White", "Harris", "Clark", "Lewis", "Walker",
+                "Young", "Allen", "King", "Wright", "Scott", "Torres", "Nguyen", "Hill", "Flores", "Green",
+                "Adams", "Nelson", "Baker", "Hall", "Rivera", "Mitchell", "Carter", "Roberts", "Gomez", "Evans",
+                "Turner", "Diaz", "Parker", "Cruz", "Edwards", "Collins", "Reyes", "Cook", "Morgan", "Bell"
             ]
         },
         uk: {
             male: [
                 "Arthur", "George", "Harry", "Charlie", "Leo", "Finley", "Alfie", "Freddie", "Archie", "Theo",
-                "Oscar", "Edward", "Toby", "Jude", "Rory", "Tommy", "Hugo", "Callum", "Harrison", "Reuben",
-                "Louie", "Barnaby", "Jasper", "Felix", "Ollie", "Stanley", "Albie", "Angus", "Caleb", "Dylan",
-                "Reggie", "Rupert", "oakley", "Sonny", "Blake", "Brody", "Jenson", "Harvey", "Alex", "Frankie",
-                "ronnie", "ralph", "Milo", "Zachary", "Kian", "Luka", "Elliot", "Ezra", "Grayson", "Rowan",
-                "Chester", "Hector", "Otis", "Wilfred", "leon", "Myles", "jesse", "ellis", "ralphie", "ibrahim",
-                "Lewis", "kyle", "craig", "Ross", "kieran", "Declan", "conor", "Sean", "patrick", "niall",
-                "gareth", "rhys", "owen", "gethin", "ieuan", "lloyd", "alec", "fraser", "hamish", "lachlan",
-                "gavin", "malcolm", "stuart", "gordon", "duncan", "alistair", "cameron", "ewan", "blair", "murray",
-                "nigel", "clive", "trevor", "graham", "keith", "colin", "derek", "barry", "warren", "darren"
+                "Oscar", "Edward", "Toby", "Jude", "Rory", "Tommy", "Hugo", "Callum", "Reuben", "Louie",
+                "Jasper", "Felix", "Ollie", "Stanley", "Albie", "Angus", "Caleb", "Dylan", "Reggie", "Rupert",
+                "Oakley", "Sonny", "Blake", "Brody", "Jenson", "Harvey", "Alex", "Frankie", "Ronnie", "Ralph",
+                "Milo", "Kian", "Luka", "Elliot", "Ezra", "Rowan", "Chester", "Hector", "Otis", "Leon",
+                "Myles", "Jesse", "Ellis", "Lewis", "Kyle", "Craig", "Ross", "Kieran", "Declan", "Conor",
+                "Sean", "Niall", "Gareth", "Rhys", "Owen", "Lloyd", "Alec", "Fraser", "Hamish", "Gavin"
             ],
             female: [
-                "Isla", "Freya", "Florence", "Willow", "Rosie", "Grace", "Daisy", "Sienna", "Poppy", "Elsie",
-                "Phoebe", "Evie", "Matilda", "Maisie", "Imogen", "Alice", "Ruby", "Millie", "Esme", "Maya",
-                "Bonnie", "Harriet", "Molly", "Bella", "Zara", "Erin", "Mabel", "Robyn", "Holly", "Clara",
-                "delilah", "nancy", "violet", "amber", "orla", "penelope", "rose", "darcey", "lyla", "iris",
-                "thea", "hallie", "maeve", "lottie", "heidi", "maddison", "eliza", "emilia", "nia", "ayla",
-                "bethany", "katie", "lauren", "rebecca", "hannah", "amy", "megan", "charlotte", "gemma", "hayley",
-                "jade", "kelly", "nicola", "rachel", "samantha", "victoria", "zoe", "abigail", "caitlin", "eleanor",
-                "fiona", "georgia", "heather", "iona", "kirsty", "lorna", "morag", "rhona", "shona", "catriona",
-                "ailish", "bronwen", "cerys", "dilys", "lowri", "megan", "nerys", "rhian", "sian", "tamsin",
-                "pippa", "tara", "yasmin", "annabelle", "beatrice", "clementine", "fleur", "india", "lara", "tabitha"
+                "Isla", "Freya", "Willow", "Rosie", "Grace", "Daisy", "Sienna", "Poppy", "Elsie", "Phoebe",
+                "Evie", "Maisie", "Imogen", "Alice", "Ruby", "Millie", "Esme", "Maya", "Bonnie", "Harriet",
+                "Molly", "Bella", "Zara", "Erin", "Mabel", "Robyn", "Holly", "Clara", "Nancy", "Violet",
+                "Amber", "Orla", "Rose", "Darcey", "Lyla", "Iris", "Thea", "Hallie", "Maeve", "Lottie",
+                "Heidi", "Eliza", "Emilia", "Nia", "Ayla", "Katie", "Lauren", "Hannah", "Amy", "Megan",
+                "Gemma", "Hayley", "Jade", "Kelly", "Nicola", "Rachel", "Zoe", "Caitlin", "Fiona", "Georgia"
             ],
             last: [
                 "Davies", "Evans", "Walker", "Wright", "Hall", "Green", "Wood", "Bailey", "Cooper", "Ward",
-                "Turner", "Watson", "Morgan", "Bell", "Hunter", "Campbell", "Stewart", "Murray", "Fletcher", "Bennett",
-                "Shaw", "Marshall", "Simpson", "Richards", "Ellis", "Graham", "Wilkinson", "Chapman", "Palmer", "Knight",
-                "Mason", "Gray", "Hunt", "powell", "cox", "Holmes", "mills", "barnes", "pearson", "lloyd",
-                "butler", "russell", "barker", "fisher", "stevens", "jenkins", "dixon", "foster", "rogers", "reid",
-                "price", "griffiths", "hughes", "edwards", "owen", "reid", "ross", "robertson", "thomson", "anderson"
+                "Turner", "Watson", "Morgan", "Bell", "Hunter", "Stewart", "Murray", "Bennett", "Shaw", "Simpson",
+                "Ellis", "Graham", "Chapman", "Palmer", "Knight", "Mason", "Gray", "Hunt", "Powell", "Cox",
+                "Holmes", "Mills", "Barnes", "Pearson", "Lloyd", "Butler", "Russell", "Barker", "Fisher", "Stevens",
+                "Jenkins", "Dixon", "Foster", "Rogers", "Reid", "Price", "Hughes", "Owen", "Ross", "Thomson"
             ]
         },
         fr: {
             male: [
                 "Gabriel", "Leo", "Raphael", "Louis", "Mael", "Jules", "Adam", "Lucas", "Hugo", "Sacha",
-                "Liam", "Paul", "Ethan", "Nolan", "Timeo", "Mohamed", "Aaron", "Gabin", "Enzo", "Victor",
-                "Mathis", "Antoine", "Valentin", "Clement", "Baptiste", "Maxime", "Alexandre", "Theo", "Romain", "Bastien",
-                "Arthur", "Tiago", "nael", "Malo", "eliott", "marcel", "noah", "eden", "leon", "marceau",
-                "gaspard", "robin", "charles", "marius", "milo", "martin", "lyam", "amir", "augustin", "evan",
-                "simon", "yanis", "côme", "ibrahim", "nino", "camille", "nicolas", "julien", "guillaume", "francois",
-                "pierre", "thomas", "benoit", "vincent", "sebastien", "jerome", "david", "olivier", "christophe", "laurent",
-                "stephane", "frederic", "patrick", "michel", "philippe", "jean", "alain", "bernard", "christian", "daniel",
-                "eric", "fabrice", "gilles", "herve", "jacques", "luc", "marc", "pascal", "remy", "thierry",
-                "tristan", "corentin", "florian", "kevin", "loic", "mathieu", "quentin", "thibault", "yoann", "zacharie"
+                "Liam", "Paul", "Ethan", "Nolan", "Timeo", "Aaron", "Gabin", "Enzo", "Victor", "Mathis",
+                "Antoine", "Clement", "Maxime", "Theo", "Romain", "Bastien", "Arthur", "Tiago", "Nael", "Malo",
+                "Eliott", "Marcel", "Noah", "Eden", "Leon", "Gaspard", "Robin", "Charles", "Marius", "Milo",
+                "Martin", "Lyam", "Amir", "Evan", "Simon", "Yanis", "Nino", "Camille", "Nicolas", "Julien",
+                "Pierre", "Thomas", "Benoit", "Vincent", "Jerome", "David", "Olivier", "Laurent", "Patrick", "Michel"
             ],
             female: [
                 "Jade", "Louise", "Ambre", "Alba", "Emma", "Rose", "Alice", "Romy", "Anna", "Lina",
-                "Chloe", "Mia", "Lea", "Ines", "Julia", "Iris", "Giulia", "Agathe", "Juliette", "Lou",
-                "Manon", "Camille", "Sarah", "Eva", "Zoe", "Nina", "Jeanne", "Charlotte", "Leonie", "Adele",
-                "alma", "charlie", "louna", "victoire", "adèle", "margaux", "olivia", "alix", "clemence", "capucine",
-                "elena", "eva", "romane", "celia", "anaïs", "océane", "pauline", "mathilde", "laura", "marine",
-                "julie", "marion", "lucie", "claire", "amelie", "audrey", "celine", "elodie", "emilie", "stephanie",
-                "aurélie", "virginie", "laetitia", "delphine", "sandrine", "karine", "valerie", "sylvie", "nathalie", "isabelle",
-                "catherine", "christine", "martine", "monique", "nicole", "francoise", "brigitte", "chantal", "dominique", "veronique",
-                "corinne", "florence", "helene", "patricia", "sophie", "agnes", "beatrice", "caroline", "diane", "estelle",
-                "fanny", "gaelle", "eloise", "justine", "maëlys", "morgane", "noemie", "solene", "valentine", "yasmine"
+                "Chloe", "Mia", "Lea", "Ines", "Julia", "Iris", "Giulia", "Agathe", "Lou", "Manon",
+                "Camille", "Sarah", "Eva", "Zoe", "Nina", "Jeanne", "Leonie", "Adele", "Alma", "Charlie",
+                "Louna", "Margaux", "Olivia", "Alix", "Elena", "Romane", "Celia", "Anais", "Oceane", "Pauline",
+                "Laura", "Marine", "Julie", "Marion", "Lucie", "Claire", "Amelie", "Audrey", "Celine", "Elodie"
             ],
             last: [
                 "Martin", "Bernard", "Thomas", "Petit", "Robert", "Richard", "Durand", "Dubois", "Moreau", "Laurent",
-                "Simon", "Michel", "Lefebvre", "Leroy", "Roux", "David", "Bertrand", "Morel", "Fournier", "Girard",
-                "Bonnet", "Dupont", "Lambert", "Fontaine", "Rousseau", "Vincent", "Muller", "Lefevre", "Faure", "Andre",
-                "Mercier", "Blanc", "Guerin", "Boyer", "Garnier", "Chevalier", "Francois", "Legrand", "Gauthier", "Garcia",
-                "Perrin", "Robin", "Clement", "Morin", "Nicolas", "Henry", "Roussel", "Mathieu", "Gautier", "Masson",
-                "Marchand", "Duval", "Denis", "Dumont", "Marie", "Lemaire", "Noel", "Meyer", "Dufour", "Meunier"
+                "Simon", "Michel", "Leroy", "Roux", "David", "Morel", "Girard", "Bonnet", "Dupont", "Lambert",
+                "Rousseau", "Vincent", "Muller", "Faure", "Andre", "Mercier", "Blanc", "Guerin", "Boyer", "Garnier",
+                "Francois", "Legrand", "Garcia", "Perrin", "Robin", "Clement", "Morin", "Nicolas", "Henry", "Roussel",
+                "Mathieu", "Gautier", "Masson", "Duval", "Denis", "Dumont", "Marie", "Lemaire", "Noel", "Meyer"
             ]
         },
         in: {
             male: [
                 "Aarav", "Vivaan", "Aditya", "Vihaan", "Arjun", "Sai", "Reyansh", "Ayaan", "Krishna", "Ishaan",
-                "Shaurya", "Atharv", "Advik", "Pranav", "Advaith", "Aaryan", "Dhruv", "Kabir", "Ritvik", "Aarush",
-                "Kian", "Darsh", "Veer", "Rohan", "Rahul", "Siddharth", "Karan", "Vikram", "Nikhil", "Rishabh",
-                "Yash", "Harsh", "Ayush", "tushar", "Gaurav", "Ankit", "Abhishek", "Manish", "Saurabh", "Shubham",
-                "Deepak", "Pंकज", "Amit", "Sumit", "Vikas", "Rajesh", "Suresh", "Ramesh", "Mahesh", "Dinesh",
-                "Sanjay", "Ajay", "Vijay", "Manoj", "Vinod", "Ashok", "Anil", "Sunil", "Prakash", "Santosh",
-                "Sachin", "Virat", "Rohit", "Shikhar", "Hardik", "Ravindra", "Jasprit", "Rishabh", "Shreyas", "Lokesh",
-                "Suryakumar", "Ishan", "Shubman", "Mohammed", "Yuzvendra", "Kuldeep", "Axar", "Shardul", "Bhuvneshwar", "Umesh",
-                "Ravichandran", "Cheteshwar", "Ajinkya", "Mayank", "Hanuma", "Prithvi", "Devdutt", "Ruturaj", "Venkatesh", "Deepak",
-                "Kartik", "Varun", "Arshdeep", "Umran", "Avesh", "Mukesh", "Tilak", "Rinku", "Jitesh", "Shivam"
+                "Shaurya", "Atharv", "Advik", "Pranav", "Aaryan", "Dhruv", "Kabir", "Ritvik", "Aarush", "Kian",
+                "Darsh", "Veer", "Rohan", "Rahul", "Karan", "Vikram", "Nikhil", "Rishabh", "Yash", "Harsh",
+                "Ayush", "Tushar", "Gaurav", "Ankit", "Manish", "Saurabh", "Shubham", "Deepak", "Pankaj", "Amit",
+                "Sumit", "Vikas", "Rajesh", "Suresh", "Ramesh", "Mahesh", "Dinesh", "Sanjay", "Ajay", "Vijay",
+                "Manoj", "Vinod", "Ashok", "Anil", "Sunil", "Prakash", "Santosh", "Sachin", "Virat", "Rohit"
             ],
             female: [
-                "Saanvi", "Aanya", "Aadhya", "Aaradhya", "Ananya", "Pari", "Anika", "Navya", "Diya", "Myra",
-                "Sara", "Ira", "Ahana", "Anvi", "Prisha", "Riya", "Aarohi", "Meera", "Pooja", "Neha",
-                "Shreya", "Kavya", "Nisha", "Tanvi", "Sneha", "Kritika", "Divya", "Aditi", "Tanya", "Ishita",
-                "Priya", "Anjali", "Swati", "Komal", "Payal", "Roshni", "Simran", "Muskan", "Khushi", "Palak",
-                "Mansi", "Nikita", "Shruti", "Bhavna", "Garima", "sakshi", "Shivani", "Sonali", "Rupali", "Deepika",
-                "Katrina", "Alia", "Kiara", "Kriti", "Shraddha", "Anushka", "Kareena", "Priyanka", "Madhuri", "Kajol",
-                "Rani", "Vidya", "Taapsee", "Bhumi", "Yami", "Mrunal", "Rashmika", "Samantha", "Tamannaah", "Kajal",
-                "Rakul", "Nayanthara", "Trisha", "Keerthy", "Sai", "Smriti", "Harmanpreet", "Jemimah", "Shafali", "Deepti",
-                "Renuka", "Richa", "Yastika", "Radha", "Sneh", "Meghna", "Harleen", "Dayalan", "Veda", "Mithali",
-                "Jhulan", "Poonam", "Shikha", "Taniya", "Ekta", "Rajeshwari", "Mansi", "Arundhati", "Anuja", "Devika"
+                "Saanvi", "Aanya", "Aadhya", "Ananya", "Pari", "Anika", "Navya", "Diya", "Myra", "Sara",
+                "Ira", "Ahana", "Anvi", "Prisha", "Riya", "Aarohi", "Meera", "Pooja", "Neha", "Shreya",
+                "Kavya", "Nisha", "Tanvi", "Sneha", "Kritika", "Divya", "Aditi", "Tanya", "Ishita", "Priya",
+                "Anjali", "Swati", "Komal", "Payal", "Roshni", "Simran", "Muskan", "Khushi", "Palak", "Mansi",
+                "Nikita", "Shruti", "Bhavna", "Garima", "Sakshi", "Shivani", "Sonali", "Rupali", "Deepika", "Alia"
             ],
             last: [
-                "Sharma", "Verma", "Gupta", "Malhotra", "Bhatia", "Saxena", "Kapoor", "Singh", "Patel", "Reddy",
-                "Nair", "Iyer", "Chatterjee", "Mukherjee", "Banerjee", "Deshmukh", "Joshi", "Kulkarni", "Mehta", "Shah",
-                "Agarwal", "Mishra", "Pandey", "Tiwari", "Chauhan", "Rathore", "Yadav", "Sinha", "Dubey", "Sen",
-                "Bose", "Das", "Roy", "Ghosh", "Datta", "Mitra", "Sengupta", "Dasgupta", "Chakraborty", "Bhattacharya",
-                "Ganguly", "Goswami", "Naidu", "Rao", "Gowda", "Hegde", "Shetty", "Menon", "Pillai", "Kurup",
-                "Nambiar", "gill", "dhillon", "sidhu", "sandhu", "grewal", "bajwa", "cheema", "brar", "chawla"
+                "Sharma", "Verma", "Gupta", "Bhatia", "Saxena", "Kapoor", "Singh", "Patel", "Reddy", "Nair",
+                "Iyer", "Joshi", "Mehta", "Shah", "Agarwal", "Mishra", "Pandey", "Tiwari", "Chauhan", "Rathore",
+                "Yadav", "Sinha", "Dubey", "Sen", "Bose", "Das", "Roy", "Ghosh", "Datta", "Mitra",
+                "Naidu", "Rao", "Gowda", "Hegde", "Shetty", "Menon", "Pillai", "Kurup", "Gill", "Dhillon",
+                "Sidhu", "Sandhu", "Grewal", "Bajwa", "Cheema", "Brar", "Chawla", "kumar", "verma", "rana"
             ]
         },
         cn: {
@@ -824,149 +529,71 @@
                 "Ming", "Jun", "Tao", "Peng", "Xiang", "Chao", "Xuan", "Chen", "Liang", "Zhi",
                 "Kai", "Long", "Rui", "Gang", "Bin", "Heng", "Kun", "Sen", "Zhen", "Hong",
                 "Zihan", "Yuxuan", "Haoran", "Zixuan", "Yichen", "Haoyu", "Zimo", "Yinuo", "Yuhang", "Zihao",
-                "JunJie", "Ziang", "Jiahao", "Tianyu", "Zeyu", "Mingze", "Wenbo", "Yubo", "Zhihao", "Junhao",
-                "cheng", "dong", "guang", "hai", "hui", "jian", "kang", "lin", "nan", "ning",
-                "ping", "qiang", "qing", "shan", "sheng", "shuai", "song", "wei", "wen", "wu",
-                "xin", "xing", "xu", "yan", "yao", "ye", "yong", "yuan", "zhe", "zheng",
-                "zhong", "zhou", "zhuang", "zi", "zong", "zuo", "an", "bai", "biao", "bin",
-                "bing", "bo", "cai", "can", "ce", "chang", "chao", "chen", "cheng", "chi"
+                "Junjie", "Ziang", "Jiahao", "Tianyu", "Zeyu", "Mingze", "Wenbo", "Yubo", "Zhihao", "Junhao"
             ],
             female: [
                 "Fang", "Na", "Min", "Jing", "Li", "Qiang", "Yan", "Juan", "Xia", "Xiu",
                 "Ling", "Ying", "Hui", "Mei", "Lan", "Qian", "Xin", "Yun", "Ting", "Yue",
                 "Shan", "Dan", "Rong", "Xue", "Lin", "Ping", "Hong", "Shu", "Wen", "Zhen",
-                "Yinuo", "Yuxuan", "Zihan", "Yutong", "Xinyi", "Zixuan", "Kexin", "Yuhan", "Shihan", " Mengyao",
-                "Chenxi", "Zitong", "Yuxi", "Xiyan", "Ruoxi", "Yuning", "Jiaqi", "Yuqi", "思琪", "Ziqi",
-                "ai", "bi", "cai", "chan", "chun", "cong", "cui", "dai", "die", "dong",
-                "e", "fan", "fei", "fen", "feng", "fu", "gui", "han", "he", "huan",
-                "jia", "jiao", "jie", "jin", "ju", "jun", "le", "lian", "liang", "lu",
-                "luo", "man", "meng", "miao", "ning", "nu", "pe", "ping", "qi", "qiao",
-                "qin", "qing", "qiong", "qiu", "qun", "ran", "rou", "ru", "ruo", "sha"
+                "Yinuo", "Yuxuan", "Zihan", "Yutong", "Xinyi", "Zixuan", "Kexin", "Yuhan", "Shihan", "Mengyao",
+                "Chenxi", "Zitong", "Yuxi", "Xiyan", "Ruoxi", "Yuning", "Jiaqi", "Yuqi", "Siqi", "Ziqi"
             ],
             last: [
                 "Wang", "Li", "Zhang", "Liu", "Chen", "Yang", "Huang", "Zhao", "Wu", "Zhou",
                 "Xu", "Sun", "Ma", "Zhu", "Hu", "Guo", "He", "Gao", "Lin", "Luo",
-                "Zheng", "Liang", "Xie", "Song", "Tang", "Xu", "Han", "Feng", "Deng", "Cao",
-                "Peng", "Zeng", "Xiao", "Tian", "Dong", "Yuan", "Pan", "Yu", "Jiang", "Cai",
-                "Yu", "Du", "Ye", "Cheng", "Su", "Wei", "Lv", "Ding", "Ren", "Shen",
-                "Yao", "Lu", "Jiang", "Cui", "Tan", "Lu", "Fan", "Wang", "Liao", "Shi"
+                "Zheng", "Liang", "Xie", "Song", "Tang", "Han", "Feng", "Deng", "Cao", "Peng",
+                "Zeng", "Xiao", "Tian", "Dong", "Yuan", "Pan", "Yu", "Jiang", "Cai", "Du",
+                "Ye", "Cheng", "Su", "Wei", "Lv", "Ding", "Ren", "Shen", "Yao", "Lu"
             ]
         }
     };
 
-    const TARGET_PER_CATEGORY = 3000;
-    const usernameTags = ["vibes", "official", "zone", "spark", "wave", "pulse", "nexus", "pixel", "orbit", "echo", "glow", "zenith", "craft", "drift", "prime", "live", "hq", "pro", "x", "real"];
+    const MAX_USERNAME_LEN = 17; // Matches length of "jihad_hasan_01255" (17 chars max)
 
     function capitalizeClean(str) {
-        const clean = str.replace(/[^a-zA-Z]/g, '');
+        const clean = (str || '').replace(/[^a-zA-Z]/g, '');
         if (!clean) return "Alex";
         return clean.charAt(0).toUpperCase() + clean.slice(1).toLowerCase();
     }
 
-    // Build 3,000 items per category for all 6 countries deterministically
-    function buildMassiveOfflineData() {
-        const result = {};
-        for (const country of Object.keys(seedPools)) {
-            const mPool = seedPools[country].male.map(capitalizeClean);
-            const fPool = seedPools[country].female.map(capitalizeClean);
-            const lPool = seedPools[country].last.map(capitalizeClean);
+    // Builds username from exact first & last name + 2-digit random number, capped at 17 chars max
+    function buildBoundedUsername(firstName, lastName) {
+        const fClean = firstName.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const lClean = lastName.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const rand2Digit = Math.floor(10 + Math.random() * 90); // Always 2 digits (10-99)
+        const suffix = `_${rand2Digit}`; // 3 chars (e.g. "_48")
+        
+        let base = lClean ? `${fClean}_${lClean}` : fClean;
+        const maxBaseLength = MAX_USERNAME_LEN - suffix.length; // 14 chars max for name part
+        
+        if (base.length > maxBaseLength) {
+            base = base.substring(0, maxBaseLength).replace(/_+$/, '');
+        }
+        return `${base}${suffix}`;
+    }
 
-            const maleFirstList = [];
-            const femaleFirstList = [];
-            const lastList = [];
-            const usernameList = [];
+    // Picks a random Full Name & matching bounded Username (ensuring First+Last fits cleanly)
+    function getRandomIdentity(country, gender) {
+        const pool = seedPools[country] || seedPools.bd;
+        const firstPool = pool[gender] || pool.male;
+        const lastPool = pool.last;
 
-            for (let i = 0; i < TARGET_PER_CATEGORY; i++) {
-                // Stride with coprime numbers so consecutive names & pairs never collide
-                const mName = mPool[i % mPool.length];
-                const fName = fPool[i % fPool.length];
-                const lName = lPool[(i * 7 + Math.floor(i / mPool.length)) % lPool.length];
+        let f = "Jihad";
+        let l = "Hasan";
 
-                maleFirstList.push(mName);
-                femaleFirstList.push(fName);
-                lastList.push(lName);
-
-                // 3,000 100% unique usernames per country
-                const baseU = (i % 2 === 0 ? mName : fName).toLowerCase();
-                const baseL = lName.toLowerCase();
-                const tag = usernameTags[i % usernameTags.length];
-                const num = String(i + 1).padStart(3, '0');
-                usernameList.push(`${baseU}_${baseL}_${tag}${num}`);
+        for (let attempt = 0; attempt < 25; attempt++) {
+            const candidateF = capitalizeClean(firstPool[Math.floor(Math.random() * firstPool.length)]);
+            const candidateL = capitalizeClean(lastPool[Math.floor(Math.random() * lastPool.length)]);
+            if ((candidateF.length + 1 + candidateL.length) <= 14) {
+                f = candidateF;
+                l = candidateL;
+                break;
             }
-
-            result[country] = {
-                male_first: maleFirstList,
-                female_first: femaleFirstList,
-                last: lastList,
-                username: usernameList
-            };
         }
-        return result;
+
+        const username = buildBoundedUsername(f, l);
+        return { f, l, username };
     }
-
-    const offlineData = buildMassiveOfflineData();
-
-    // ── STRICT NO-REPEAT TRACKING (FULL NAME & USERNAME NEVER REPEAT) ──
-    const USED_STORAGE_KEY = 'jih4d_used_data_v2';
-
-    function getUsedSet() {
-        try {
-            const raw = localStorage.getItem(USED_STORAGE_KEY);
-            return raw ? new Set(JSON.parse(raw)) : new Set();
-        } catch (e) {
-            return new Set();
-        }
-    }
-
-    function markItemAsUsed(key) {
-        try {
-            const usedSet = getUsedSet();
-            usedSet.add(key);
-            localStorage.setItem(USED_STORAGE_KEY, JSON.stringify([...usedSet]));
-        } catch (e) {}
-    }
-
-    function initCleanAccountData() {
-        const usedSet = getUsedSet();
-        const cleanData = {};
-
-        for (const country of Object.keys(offlineData)) {
-            cleanData[country] = {
-                male_first: [...offlineData[country].male_first],
-                female_first: [...offlineData[country].female_first],
-                last: [...offlineData[country].last],
-                username: offlineData[country].username.filter(u => !usedSet.has(`${country}_user_${u}`))
-            };
-
-            // Trim first/last counts based on how many full names were already used in this country
-            let usedMaleCount = 0;
-            let usedFemaleCount = 0;
-            usedSet.forEach(k => {
-                if (k.startsWith(`${country}_male_pair_`)) usedMaleCount++;
-                if (k.startsWith(`${country}_female_pair_`)) usedFemaleCount++;
-            });
-
-            if (usedMaleCount > 0) cleanData[country].male_first.splice(0, usedMaleCount);
-            if (usedFemaleCount > 0) cleanData[country].female_first.splice(0, usedFemaleCount);
-            const totalUsedNames = usedMaleCount + usedFemaleCount;
-            if (totalUsedNames > 0) cleanData[country].last.splice(0, Math.min(totalUsedNames, cleanData[country].last.length));
-        }
-        return cleanData;
-    }
-
-    window.accountData = initCleanAccountData();
-
-    function resetUsedHistory() {
-        if (confirm("আপনি কি ব্যবহৃত সব নামের হিস্ট্রি রিসেট করে আবার ৩,০০০ নাম নতুনভাবে শুরু করতে চান?")) {
-            localStorage.removeItem(USED_STORAGE_KEY);
-            window.accountData = initCleanAccountData();
-            showToastMessage("🔄 All 3,000 Names Reset!");
-            showMainMenu();
-        }
-    }
-
-    // For Delete All tracking
-    window.currentFilteredDocIds = [];
 
     document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
@@ -976,19 +603,10 @@
                 preloader.style.visibility = 'hidden';
                 setTimeout(() => { preloader.style.display = 'none'; }, 500);
             }
-        }, 800); 
+        }, 600); 
     });
 
-    function openAdminPanel() {
-        document.getElementById('mainAppWrapper').classList.add('hidden');
-        document.getElementById('adminAppWrapper').classList.remove('hidden');
-    }
-    
-    function closeAdminPanel() {
-        document.getElementById('adminAppWrapper').classList.add('hidden');
-        document.getElementById('mainAppWrapper').classList.remove('hidden');
-    }
-
+    // ── THEME ENGINE ──
     const themeSequence = ['theme-light', 'theme-ocean', 'theme-cyber', 'theme-ios'];
     const themeData = {
         'theme-light': { emoji: '☀️', name: 'Light Theme' },
@@ -1027,8 +645,20 @@
 
     let autoPasteEnabled = false;
     let vaultPassword = localStorage.getItem('jih4d_vault_pass') || '';
-    let igCounter = parseInt(localStorage.getItem('jih4d_ig_counter')) || 1;
-    let customCounter = parseInt(localStorage.getItem('jih4d_custom_counter')) || 1;
+
+    // ── ACTIVE 2FA LIVE REFRESH TIMERS ──
+    const active2FATimers = {};
+
+    function clear2FATimer(targetId) {
+        if (active2FATimers[targetId]) {
+            clearInterval(active2FATimers[targetId]);
+            delete active2FATimers[targetId];
+        }
+    }
+
+    function clearAll2FATimers() {
+        Object.keys(active2FATimers).forEach(clear2FATimer);
+    }
 
     function saveVaultPassword(val) {
         vaultPassword = val;
@@ -1054,6 +684,7 @@
 
     function toggle2FAMode(checked, manualId, autoId, resultId) {
         autoPasteEnabled = checked; 
+        clear2FATimer(resultId);
         document.getElementById(manualId).style.display = checked ? 'none' : 'block';
         document.getElementById(autoId).style.display = checked ? 'block' : 'none';
         document.getElementById(resultId).innerHTML = ''; 
@@ -1162,11 +793,14 @@
             let secret = text.replace(/\s+/g, '').toUpperCase();
             execute2FACore(secret, targetId, true);
         }).catch(() => {
+            clear2FATimer(targetId);
             document.getElementById(targetId).innerHTML = `<div style="color:var(--danger); font-size:11px; text-align:center; padding:8px; border:1px solid var(--danger); border-radius:6px; margin-top:8px;">⚠️ Browser permission denied</div>`;
         });
     }
 
+    // ── LIVE AUTO-UPDATING 2FA ENGINE (UPDATES EVERY SECOND, AUTO-ROTATES CODE EVERY 30s) ──
     function execute2FACore(secret, targetId, isAuto) {
+        clear2FATimer(targetId);
         const resultDiv = document.getElementById(targetId);
         if (!secret) { resultDiv.innerHTML = ``; return; }
 
@@ -1179,16 +813,45 @@
                 period: 30, 
                 secret: OTPAuth.Secret.fromBase32(secret) 
             });
-            let code = totp.generate();
-            let pastedKeyHTML = isAuto ? `<div style="font-size: 9px; color: var(--text-muted); margin-bottom: 2px;">Key: ${secret}</div>` : '';
 
-            resultDiv.innerHTML = `
-                <div class="clickable-data fade-in" style="width: 100%; text-align: center; border-color: var(--primary); padding: 12px; margin-top: 8px; margin-bottom: 0;" onclick="copyText('${code}', '🔑 Token Copied: ${code}')">
-                    ${pastedKeyHTML}
-                    <div style="font-size: 20px; font-weight: 700; color: var(--primary); letter-spacing: 3px;">${code}</div>
-                </div>
-            `;
-            if(isAuto) { copyText(code, `🔑 Auto Copied: ${code}`); }
+            let lastCode = null;
+            let initialCopyDone = false;
+
+            const renderTick = () => {
+                const container = document.getElementById(targetId);
+                if (!container) {
+                    clear2FATimer(targetId);
+                    return;
+                }
+
+                const code = totp.generate();
+                const remaining = 30 - (Math.floor(Date.now() / 1000) % 30);
+                const expiringClass = remaining <= 5 ? 'expiring' : '';
+                let pastedKeyHTML = isAuto ? `<div style="font-size: 9px; color: var(--text-muted); margin-bottom: 4px;">Key: ${displaySecret}</div>` : '';
+
+                container.innerHTML = `
+                    <div class="clickable-data" style="width: 100%; text-align: center; border-color: var(--primary); padding: 12px; margin-top: 8px; margin-bottom: 0;" onclick="copyText('${code}', '🔑 Token Copied: ${code}')">
+                        ${pastedKeyHTML}
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                            <div style="font-size: 20px; font-weight: 700; color: var(--primary); letter-spacing: 3px;">${code}</div>
+                            <span class="totp-timer-badge ${expiringClass}">⏱ ${remaining}s</span>
+                        </div>
+                    </div>
+                `;
+
+                if (isAuto && !initialCopyDone) {
+                    initialCopyDone = true;
+                    lastCode = code;
+                    copyText(code, `🔑 Auto Copied: ${code}`);
+                } else if (lastCode && lastCode !== code) {
+                    lastCode = code;
+                } else {
+                    lastCode = code;
+                }
+            };
+
+            renderTick();
+            active2FATimers[targetId] = setInterval(renderTick, 1000);
         } catch { 
             resultDiv.innerHTML = `
                 <div style="color:var(--danger); font-size:10px; text-align:center; margin-top:8px; padding: 8px; border: 1px dashed var(--danger); border-radius: 8px; background: rgba(239, 68, 68, 0.05);">
@@ -1223,6 +886,7 @@
         } else { 
             container.style.display = 'none'; 
             btn.innerText = `+ Add ${boxName}`; 
+            clear2FATimer(resId);
             let inp = document.getElementById(inpId); 
             if(inp) inp.value = ''; 
             document.getElementById(resId).innerHTML = ''; 
@@ -1293,6 +957,7 @@
     const contentDiv = document.getElementById('app-content');
     
     function renderView(html, title = '') {
+        clearAll2FATimers();
         document.getElementById('page-title').innerText = title;
         contentDiv.classList.remove("fade-in"); 
         void contentDiv.offsetWidth; 
@@ -1305,9 +970,8 @@
             <div class="data-card">
                 <h3 style="font-size: 14px; margin-bottom: 10px;">Vault Configuration</h3>
                 <input type="text" class="input-box" placeholder="Set global password here..." value="${vaultPassword}" oninput="saveVaultPassword(this.value)">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding: 0 4px;">
+                <div style="display: flex; justify-content: flex-start; align-items: center; margin-top: 12px; padding: 0 4px;">
                     <a href="javascript:void(0)" style="color: var(--primary); font-size: 11px; font-weight: 700; text-decoration: none; letter-spacing: 0.5px;">Contact Developer (JIH4D)</a>
-                    <span onclick="resetUsedHistory()" style="color: var(--danger); font-size: 10.5px; font-weight: 700; cursor: pointer;">🔄 Reset Used Names</span>
                 </div>
             </div>
 
@@ -1322,10 +986,10 @@
 
     function showCustomNameView() {
         renderView(`
-            <p class="desc">Enter a custom name to generate sequential usernames.</p>
+            <p class="desc">Enter a custom name to generate matching random 2-digit usernames.</p>
             
             <div class="data-card">
-                <input type="text" id="customNameInput" class="input-box" placeholder="Enter Custom Name (e.g., John Doe)">
+                <input type="text" id="customNameInput" class="input-box" placeholder="Enter Custom Name (e.g., Jihad Hasan)">
                 <button class="btn btn-primary" style="margin-top: 10px;" onclick="generateCustomIdentity()">Generate Username</button>
             </div>
 
@@ -1347,15 +1011,14 @@
             return showToastMessage("⚠️ Please enter a name first");
         }
 
-        let formattedCounter = String(customCounter).padStart(2, '0');
-        let baseUsername = inputVal.toLowerCase().replace(/\s+/g, '_');
-        let generatedUsername = `${baseUsername}_${formattedCounter}`;
+        let parts = inputVal.split(/\s+/);
+        let fName = parts[0] || '';
+        let lName = parts.slice(1).join('_') || '';
+        let generatedUsername = buildBoundedUsername(fName, lName);
         
-        customCounter++; 
-        localStorage.setItem('jih4d_custom_counter', customCounter);
-        
+        let safeInputVal = inputVal.replace(/'/g, "\\'");
         let resultTextHTML = `
-            <div class="clickable-data fade-in" style="font-size: 16px; width:100%; text-align:center; margin-bottom:8px;" onclick="copyText('${inputVal}', '👤 Name Copied!')">${inputVal}</div>
+            <div class="clickable-data fade-in" style="font-size: 16px; width:100%; text-align:center; margin-bottom:8px;" onclick="copyText('${safeInputVal}', '👤 Name Copied!')">${inputVal}</div>
             <div class="clickable-data fade-in" style="font-size: 15px; width:100%; text-align:center;" onclick="copyText('${generatedUsername}', '📸 Username Copied!')">${generatedUsername}</div>
         `;
         
@@ -1535,7 +1198,7 @@
 
     function show2FA() {
         renderView(`
-            <p class="desc">Extract security tokens easily.</p>
+            <p class="desc">Extract security tokens easily (Auto-refreshes every 30s).</p>
             
             <div class="data-card">
                 ${getToggleUI('Decrypt Token', 'toggle2FAMode', 'manualMain2FA', 'autoMain2FA', 'totpResult')}
@@ -1611,123 +1274,30 @@
         `, 'Select Gender');
     }
 
-    function getUniqueFullName(gender) {
-        let firstCategory = `${gender}_first`;
-        let firstList = window.accountData[selCoun][firstCategory];
-        let lastList = window.accountData[selCoun]["last"];
-        const usedSet = getUsedSet();
-
-        if (!firstList || firstList.length === 0 || !lastList || lastList.length === 0) {
-            return null;
-        }
-
-        // Pop the next sequential First Name & find a Last Name so Full Name is 100% unique
-        let fVal = firstList.shift();
-        let fName = typeof fVal === 'object' && fVal !== null ? fVal.name : fVal;
-        let fId = typeof fVal === 'object' && fVal !== null ? fVal.id : null;
-
-        let chosenLastIndex = 0;
-        for (let i = 0; i < lastList.length; i++) {
-            let candidateL = typeof lastList[i] === 'object' && lastList[i] !== null ? lastList[i].name : lastList[i];
-            let pairKey = `${selCoun}_${gender}_pair_${fName.toLowerCase()}_${candidateL.toLowerCase()}`;
-            if (!usedSet.has(pairKey)) {
-                chosenLastIndex = i;
-                break;
-            }
-        }
-
-        let lVal = lastList.splice(chosenLastIndex, 1)[0];
-        let lName = typeof lVal === 'object' && lVal !== null ? lVal.name : lVal;
-        let lId = typeof lVal === 'object' && lVal !== null ? lVal.id : null;
-
-        // Mark this exact Full Name as used permanently
-        markItemAsUsed(`${selCoun}_${gender}_pair_${fName.toLowerCase()}_${lName.toLowerCase()}`);
-
-        if (fId && window.firebaseDeleteDoc && window.firebaseDB) {
-            window.firebaseDeleteDoc(window.firebaseDoc(window.firebaseDB, "names", fId)).catch(() => {});
-        }
-        if (lId && window.firebaseDeleteDoc && window.firebaseDB) {
-            window.firebaseDeleteDoc(window.firebaseDoc(window.firebaseDB, "names", lId)).catch(() => {});
-        }
-
-        return { f: fName, l: lName };
-    }
-
-    function getSequentialUsername() {
-        let userList = window.accountData[selCoun]["username"];
-        if(!userList || userList.length === 0) {
-            return null;
-        }
-
-        let userVal = userList.shift();
-        let userName = typeof userVal === 'object' && userVal !== null ? userVal.name : userVal;
-        let userId = typeof userVal === 'object' && userVal !== null ? userVal.id : null;
-
-        markItemAsUsed(`${selCoun}_user_${userName}`);
-
-        if (userId && window.firebaseDeleteDoc && window.firebaseDB) {
-            window.firebaseDeleteDoc(window.firebaseDoc(window.firebaseDB, "names", userId)).catch(() => {});
-        }
-
-        return userName;
-    }
-
     function generateIdentityData(g) {
-        let nameObj = getUniqueFullName(g);
-        
-        let firstCount = window.accountData[selCoun][`${g}_first`] ? window.accountData[selCoun][`${g}_first`].length : 0;
-        let lastCount = window.accountData[selCoun]["last"] ? window.accountData[selCoun]["last"].length : 0;
-        let userCount = window.accountData[selCoun]["username"] ? window.accountData[selCoun]["username"].length : 0;
-        
-        let statsBadgeHTML = `
-            <div class="fade-in" style="font-size: 9px; color: var(--primary); margin-bottom: 12px; background: rgba(0,0,0,0.2); padding: 4px 10px; border-radius: 6px; display: inline-block; border: 1px solid var(--card-border); letter-spacing: 0.5px;">
-                DB: ${firstCount} First | ${lastCount} Last | ${userCount} Users
-            </div><br>
-        `;
-
-        if (!nameObj) {
-            document.getElementById('identity-data-box').innerHTML = statsBadgeHTML + `
-                <div style="color: var(--danger); font-size: 12px; font-weight: 600; padding: 12px;">
-                    ⚠️️ ৩,০০০ নামই ব্যবহার হয়ে গেছে! Dashboard থেকে Reset Used Names বাটনে ক্লিক করুন।
-                </div>
-            `;
-            return;
-        }
-
-        let { f, l } = nameObj;
-        let resultTextHTML = statsBadgeHTML;
+        let { f, l, username } = getRandomIdentity(selCoun, g);
+        let fullName = `${f} ${l}`;
+        let resultTextHTML = '';
 
         if (selPlat === 'fb') {
-            let textToCopy = `${f} ${l}`;
             resultTextHTML += `
-                <div class="clickable-data fade-in" style="font-size: 16px; width:100%; text-align:center; margin-bottom:8px;" onclick="copyText('${textToCopy}', '👤 Name Copied!')">${textToCopy}</div>
-                <div style="display:flex; gap:8px;" class="fade-in">
+                <div class="clickable-data fade-in" style="font-size: 16px; width:100%; text-align:center; margin-bottom:8px;" onclick="copyText('${fullName}', '👤 Name Copied!')">${fullName}</div>
+                <div style="display:flex; gap:8px; margin-bottom:8px;" class="fade-in">
                     <div class="clickable-data" style="flex:1; text-align:center;" onclick="copyText('${f}', '👤 First Name Copied!')">${f}</div>
                     <div class="clickable-data" style="flex:1; text-align:center;" onclick="copyText('${l}', '👤 Last Name Copied!')">${l}</div>
                 </div>
+                <div class="clickable-data fade-in" style="font-size: 15px; width:100%; text-align:center;" onclick="copyText('${username}', '📘 Username Copied!')">${username}</div>
             `;
         } else if (selPlat === 'ig') {
-            let igUser = getSequentialUsername();
-            if (!igUser) {
-                let formattedCounter = String(igCounter).padStart(2, '0');
-                igUser = `${f.toLowerCase()}_${l.toLowerCase()}_${formattedCounter}`;
-                igCounter++; 
-                localStorage.setItem('jih4d_ig_counter', igCounter);
-            }
-            let fullName = `${f} ${l}`;
-            
             resultTextHTML += `
                 <div class="clickable-data fade-in" style="font-size: 16px; width:100%; text-align:center; margin-bottom:8px;" onclick="copyText('${fullName}', '👤 Name Copied!')">${fullName}</div>
-                <div class="clickable-data fade-in" style="font-size: 15px; width:100%; text-align:center;" onclick="copyText('${igUser}', '📸 Username Copied!')">${igUser}</div>
+                <div class="clickable-data fade-in" style="font-size: 15px; width:100%; text-align:center;" onclick="copyText('${username}', '📸 Username Copied!')">${username}</div>
             `;
         } else if (selPlat === 'tt') {
-            let fullName = `${f} ${l}`;
-            let ttName = getSequentialUsername() || `${f.toLowerCase()}_${l.toLowerCase()}_tt`;
-            
             resultTextHTML += `
                 <div class="clickable-data fade-in" style="font-size: 16px; width:100%; text-align:center; margin-bottom:8px;" onclick="copyText('${fullName}', '👤 Name Copied!')">${fullName}</div>
                 <div class="fade-in" style="font-size:11px; color:var(--text-muted); margin-bottom:4px; font-weight: 500;">Tiktok Username</div>
-                <div class="clickable-data fade-in" style="font-size: 15px; width:100%; text-align:center;" onclick="copyText('${ttName}', '🎵 Tiktok Username Copied!')">${ttName}</div>
+                <div class="clickable-data fade-in" style="font-size: 15px; width:100%; text-align:center;" onclick="copyText('${username}', '🎵 Tiktok Username Copied!')">${username}</div>
             `;
         }
 
@@ -1761,276 +1331,6 @@
     }
 
     showMainMenu();
-</script>
-
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, collection, getDocs, deleteDoc, doc, writeBatch } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyB50Puqo5nr7-1aoT-znhHyBkvD9ui0XhU",
-        authDomain: "authgenix.firebaseapp.com",
-        projectId: "authgenix",
-        storageBucket: "authgenix.firebasestorage.app",
-        messagingSenderId: "959487638243",
-        appId: "1:959487638243:web:72d57f128835f354b763d6"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    
-    window.firebaseDB = db;
-    window.firebaseDeleteDoc = deleteDoc;
-    window.firebaseDoc = doc;
-
-    async function fetchNamesFromFirebase() {
-        try {
-            const querySnapshot = await getDocs(collection(db, "names"));
-            let allDocs = [];
-            
-            querySnapshot.forEach((docSnap) => {
-                allDocs.push({ id: docSnap.id, ...docSnap.data() });
-            });
-
-            allDocs.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
-
-            allDocs.forEach((data) => {
-                if(window.accountData[data.country] && window.accountData[data.country][data.category]) {
-                    window.accountData[data.country][data.category].unshift({ id: data.id, name: data.name });
-                }
-            });
-        } catch (error) {
-            console.error("Error fetching names from Firebase: ", error);
-        }
-    }
-    fetchNamesFromFirebase();
-
-    const loginSection = document.getElementById('loginSection');
-    const dashboardSection = document.getElementById('dashboardSection');
-    const adminDataList = document.getElementById('adminDataList');
-    const recordCountText = document.getElementById('recordCountText');
-    const addDataBtn = document.getElementById('addDataBtn');
-    const filterPlatform = document.getElementById('filterPlatform');
-
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            loginSection.classList.add('hidden');
-            dashboardSection.classList.remove('hidden');
-            loadAdminData();
-        } else {
-            loginSection.classList.remove('hidden');
-            dashboardSection.classList.add('hidden');
-        }
-    });
-
-    filterPlatform.addEventListener('change', () => loadAdminData());
-
-    document.getElementById('loginBtn').addEventListener('click', () => {
-        const email = document.getElementById('emailInput').value;
-        const pass = document.getElementById('passwordInput').value;
-        signInWithEmailAndPassword(auth, email, pass).catch(err => {
-            document.getElementById('errorMsg').innerText = "❌ " + err.message;
-        });
-    });
-
-    document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth));
-
-    addDataBtn.addEventListener('click', async () => {
-        const platform = document.getElementById('platformSelect').value;
-        const country = document.getElementById('countrySelect').value;
-        const category = document.getElementById('categorySelect').value;
-        const fileInput = document.getElementById('fileInput').files[0];
-
-        if(!fileInput) {
-            return alert("⚠️ Please select a .txt file first!");
-        }
-
-        addDataBtn.innerText = "Processing Data...";
-        addDataBtn.disabled = true;
-
-        try {
-            const reader = new FileReader();
-            reader.onload = async function(e) {
-                const fileContent = e.target.result;
-                const lines = fileContent.split(/\r?\n/).filter(line => line.trim() !== '');
-                await processBulkData(lines, platform, country, category);
-            };
-            reader.readAsText(fileInput);
-        } catch (e) {
-            alert("Error: " + e.message);
-            resetButton();
-        }
-    });
-
-    async function processBulkData(namesArray, platform, country, category) {
-        try {
-            let batch = writeBatch(db);
-            let operationsCounter = 0;
-            let addedCount = 0;
-
-            for (let i = 0; i < namesArray.length; i++) {
-                const fullName = namesArray[i].trim();
-                if (!fullName) continue;
-
-                if (category === 'male_full' || category === 'female_full') {
-                    const parts = fullName.split(/\s+/);
-                    if (parts.length >= 2) {
-                        const firstName = parts[0];
-                        const lastName = parts.slice(1).join(' '); 
-                        const firstCategory = category === 'male_full' ? 'male_first' : 'female_first';
-
-                        batch.set(doc(collection(db, "names")), { platform, country, category: firstCategory, name: firstName });
-                        operationsCounter++;
-
-                        batch.set(doc(collection(db, "names")), { platform, country, category: 'last', name: lastName });
-                        operationsCounter++;
-                        addedCount++;
-                    } else {
-                        const firstCategory = category === 'male_full' ? 'male_first' : 'female_first';
-                        batch.set(doc(collection(db, "names")), { platform, country, category: firstCategory, name: fullName });
-                        operationsCounter++;
-                        addedCount++;
-                    }
-                } else {
-                    batch.set(doc(collection(db, "names")), { platform, country, category, name: fullName });
-                    operationsCounter++;
-                    addedCount++;
-                }
-
-                if (operationsCounter >= 400) {
-                    await batch.commit();
-                    batch = writeBatch(db);
-                    operationsCounter = 0;
-                }
-            }
-
-            if (operationsCounter > 0) {
-                await batch.commit();
-            }
-
-            alert(`✅ Successfully added ${addedCount} records to the database!`);
-            document.getElementById('fileInput').value = '';
-            loadAdminData(); 
-            fetchNamesFromFirebase(); 
-        } catch (error) {
-            alert("Upload Error: " + error.message);
-        }
-        resetButton();
-    }
-
-    function resetButton() {
-        addDataBtn.innerText = "Upload Database";
-        addDataBtn.disabled = false;
-    }
-
-    async function loadAdminData() {
-        adminDataList.innerHTML = '<p style="font-size: 12px; color: var(--text-muted); margin-top: 20px;">Fetching records...</p>';
-        window.currentFilteredDocIds = [];
-        
-        try {
-            const selectedFilter = filterPlatform.value;
-            const querySnapshot = await getDocs(collection(db, "names"));
-            
-            let html = "";
-            let count = 0;
-
-            querySnapshot.forEach((docSnap) => {
-                const data = docSnap.data();
-                const itemPlatform = data.platform || 'all'; 
-
-                if (selectedFilter !== 'all_view' && itemPlatform !== selectedFilter) return;
-
-                count++;
-                window.currentFilteredDocIds.push(docSnap.id);
-
-                let platLabel = 'GLOBAL';
-                let platColor = '#a59fb3';
-                
-                if(itemPlatform === 'fb') { platLabel = 'FB'; platColor = '#3b82f6'; }
-                else if(itemPlatform === 'ig') { platLabel = 'IG'; platColor = '#e62e5c'; }
-                else if(itemPlatform === 'tt') { platLabel = 'TT'; platColor = '#10b981'; }
-
-                html += `
-                    <div class="admin-data-card">
-                        <div class="admin-data-info">
-                            <span class="admin-data-name">${data.name}</span>
-                            <span class="admin-data-meta">
-                                <span style="color: ${platColor}; border: 1px solid ${platColor}; padding: 1px 4px; border-radius: 4px; font-size: 9px;">${platLabel}</span> 
-                                ${data.country.toUpperCase()} • ${data.category.replace('_', ' ').toUpperCase()}
-                            </span>
-                        </div>
-                        <button class="admin-delete-btn" onclick="deleteAdminData('${docSnap.id}')">Delete</button>
-                    </div>
-                `;
-            });
-
-            recordCountText.innerText = count;
-            adminDataList.innerHTML = html || "<p style='font-size: 12px; color: var(--text-muted); margin-top: 20px; text-align: center;'>No records found.</p>";
-            
-            const deleteAllBtn = document.getElementById('deleteAllBtn');
-            if(count > 0) {
-                deleteAllBtn.classList.remove('hidden');
-            } else {
-                deleteAllBtn.classList.add('hidden');
-            }
-
-        } catch (e) {
-            adminDataList.innerHTML = `<p style="color:var(--danger); font-size: 12px;">Error: ${e.message}</p>`;
-        }
-    }
-
-    window.deleteAdminData = async function(docId) {
-        if(confirm("Are you sure you want to delete this record?")) {
-            await deleteDoc(doc(db, "names", docId));
-            loadAdminData(); 
-            fetchNamesFromFirebase();
-        }
-    }
-
-    window.deleteAllFilteredData = async function() {
-        if (window.currentFilteredDocIds.length === 0) return;
-        
-        if(confirm(`Are you sure you want to delete all ${window.currentFilteredDocIds.length} visible records? This action cannot be undone.`)) {
-            
-            const deleteAllBtn = document.getElementById('deleteAllBtn');
-            deleteAllBtn.innerHTML = "Deleting...";
-            deleteAllBtn.disabled = true;
-
-            try {
-                let batch = writeBatch(db);
-                let opCount = 0;
-                let totalDeleted = 0;
-
-                for (let i = 0; i < window.currentFilteredDocIds.length; i++) {
-                    const docId = window.currentFilteredDocIds[i];
-                    batch.delete(doc(db, "names", docId));
-                    opCount++;
-                    totalDeleted++;
-
-                    if (opCount === 500) {
-                        await batch.commit();
-                        batch = writeBatch(db);
-                        opCount = 0;
-                    }
-                }
-                
-                if (opCount > 0) {
-                    await batch.commit();
-                }
-                
-                alert(`✅ Successfully deleted ${totalDeleted} records.`);
-                loadAdminData(); 
-                fetchNamesFromFirebase();
-            } catch (error) {
-                alert("Error deleting records: " + error.message);
-            } finally {
-                deleteAllBtn.innerHTML = "🗑️ Delete All";
-                deleteAllBtn.disabled = false;
-            }
-        }
-    }
 </script>
 
 </body>
